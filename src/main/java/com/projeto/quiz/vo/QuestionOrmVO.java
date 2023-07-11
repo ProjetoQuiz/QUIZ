@@ -15,6 +15,7 @@ public class QuestionOrmVO implements Serializable {
     private String optionB;
     private String optionC;
     private String optionD;
+    @JsonIgnore
     private String response;
     @JsonIgnore
     private List<UserResponsesOrm> userQuestionsOrm = new ArrayList<>();
@@ -100,12 +101,12 @@ public class QuestionOrmVO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         QuestionOrmVO that = (QuestionOrmVO) o;
-        return Objects.equals(id, that.id) && Objects.equals(question, that.question) && Objects.equals(optionA, that.optionA) && Objects.equals(optionB, that.optionB) && Objects.equals(optionC, that.optionC) && Objects.equals(optionD, that.optionD) && Objects.equals(response, that.response);
+        return Objects.equals(id, that.id) && Objects.equals(question, that.question) && Objects.equals(optionA, that.optionA) && Objects.equals(optionB, that.optionB) && Objects.equals(optionC, that.optionC) && Objects.equals(optionD, that.optionD) && Objects.equals(response, that.response) && Objects.equals(userQuestionsOrm, that.userQuestionsOrm);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, question, optionA, optionB, optionC, optionD, response);
+        return Objects.hash(id, question, optionA, optionB, optionC, optionD, response, userQuestionsOrm);
     }
 
     @Override
@@ -118,6 +119,7 @@ public class QuestionOrmVO implements Serializable {
                 ", optionC='" + optionC + '\'' +
                 ", optionD='" + optionD + '\'' +
                 ", response='" + response + '\'' +
+                ", userQuestionsOrm=" + userQuestionsOrm +
                 '}';
     }
 }

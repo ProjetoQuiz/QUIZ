@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "document_table")
 public class Document implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "document_id")
@@ -17,16 +16,15 @@ public class Document implements Serializable {
 
     @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
-
-    @OneToOne(mappedBy = "document")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
     public Document() {
     }
 
-    public Document(Long id, String cpf, User user) {
-        this.id = id;
+    public Document(String cpf, User user) {
         this.cpf = cpf;
         this.user = user;
     }
@@ -77,3 +75,17 @@ public class Document implements Serializable {
                 '}';
     }
 }
+
+/*
+public class Document
+ @OneToOne(mappedBy = "document")
+    @JsonIgnore
+    private User user;
+
+public class User
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "document_id")
+    private Document document;
+
+
+ */

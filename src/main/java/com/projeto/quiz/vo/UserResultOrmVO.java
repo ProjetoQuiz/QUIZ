@@ -16,7 +16,6 @@ public class UserResultOrmVO implements Serializable {
     }
 
     public UserResultOrmVO(String userName, Integer totalCorrect, Integer totalWrong, User user) {
-
         this.userName = userName;
         this.totalCorrect = totalCorrect;
         this.totalWrong = totalWrong;

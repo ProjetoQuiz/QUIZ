@@ -12,8 +12,7 @@ public class DocumentVO implements Serializable {
     public DocumentVO() {
     }
 
-    public DocumentVO(Long id, String cpf, User user) {
-        this.id = id;
+    public DocumentVO(String cpf, User user) {
         this.cpf = cpf;
         this.user = user;
     }

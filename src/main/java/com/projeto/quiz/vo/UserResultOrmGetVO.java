@@ -1,32 +1,24 @@
-package com.projeto.quiz.models;
+package com.projeto.quiz.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.projeto.quiz.models.User;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "user_result_orm")
-public class UserResultOrm implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_result_orm_id")
+public class UserResultOrmGetVO implements Serializable {
+    @JsonIgnore
     private Long id;
-    @Column(name = "user_name", nullable = false, length = 120)
     private String userName;
-    @Column(name = "total_correct", nullable = false)
     private Integer totalCorrect;
-    @Column(name = "total_wrong", nullable = false)
     private Integer totalWrong;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
-    public UserResultOrm() {
+    public UserResultOrmGetVO() {
     }
 
-    public UserResultOrm(String userName, Integer totalCorrect, Integer totalWrong, User user) {
+    public UserResultOrmGetVO(String userName, Integer totalCorrect, Integer totalWrong, User user) {
         this.userName = userName;
         this.totalCorrect = totalCorrect;
         this.totalWrong = totalWrong;
@@ -65,7 +57,6 @@ public class UserResultOrm implements Serializable {
         this.totalWrong = totalWrong;
     }
 
-    @JsonIgnore
     public User getUser() {
         return user;
     }
@@ -78,7 +69,7 @@ public class UserResultOrm implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserResultOrm that = (UserResultOrm) o;
+        UserResultOrmGetVO that = (UserResultOrmGetVO) o;
         return Objects.equals(id, that.id) && Objects.equals(userName, that.userName) && Objects.equals(totalCorrect, that.totalCorrect) && Objects.equals(totalWrong, that.totalWrong) && Objects.equals(user, that.user);
     }
 
@@ -89,7 +80,7 @@ public class UserResultOrm implements Serializable {
 
     @Override
     public String toString() {
-        return "UserResult{" +
+        return "UserResultOrmGetVO{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", totalCorrect=" + totalCorrect +
@@ -98,21 +89,3 @@ public class UserResultOrm implements Serializable {
                 '}';
     }
 }
-
-
-/*
-
-public class UserResultOrm
-
-    @OneToOne(mappedBy = "userResultOrm")
-    private User user;
-
-
-public class User
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_result_orm_id")
-    private UserResultOrm userResultOrm;
-
-
- */

@@ -16,7 +16,7 @@ public class GenerateQuizService {
     @Autowired
     QuestionOrmRepository questionOrmRepository;
 
-    public List<QuestionOrmVO> generateFiveQuizQuestions() {
+    public List<QuestionOrmVO> generateFiveQuizQuestionsOrm() {
         List<QuestionOrm> allQuestions = questionOrmRepository.findAll();
         List<QuestionOrm> selectedQuestions = new ArrayList<>();
 

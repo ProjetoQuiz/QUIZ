@@ -1,23 +1,27 @@
 package com.projeto.quiz.vo;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto.quiz.models.QuestionOrm;
 import com.projeto.quiz.models.User;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserResponsesOrmVO implements Serializable {
+public class UserResponsesOrmGetOrm implements Serializable {
+    @JsonIgnore
     private Long id;
     private QuestionOrm questionOrm;
+    @JsonIgnore
     private User user;
+    @JsonIgnore
     private String userResponse;
+    @JsonIgnore
     private String correct;
 
-    public UserResponsesOrmVO() {
+    public UserResponsesOrmGetOrm() {
     }
 
-    public UserResponsesOrmVO(QuestionOrm questionOrm, User user, String userResponse, String correct) {
+    public UserResponsesOrmGetOrm(QuestionOrm questionOrm, User user, String userResponse, String correct) {
         this.questionOrm = questionOrm;
         this.user = user;
         this.userResponse = userResponse;
@@ -68,7 +72,7 @@ public class UserResponsesOrmVO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserResponsesOrmVO that = (UserResponsesOrmVO) o;
+        UserResponsesOrmGetOrm that = (UserResponsesOrmGetOrm) o;
         return Objects.equals(id, that.id) && Objects.equals(questionOrm, that.questionOrm) && Objects.equals(user, that.user) && Objects.equals(userResponse, that.userResponse) && Objects.equals(correct, that.correct);
     }
 

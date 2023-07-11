@@ -1,5 +1,6 @@
 package com.projeto.quiz.services;
 
+import com.projeto.quiz.exceptions.ResourceNotFoundException;
 import com.projeto.quiz.mapper.DozerMapper;
 import com.projeto.quiz.models.User;
 import com.projeto.quiz.models.UserResponsesOrm;
@@ -7,11 +8,18 @@ import com.projeto.quiz.models.UserResultOrm;
 import com.projeto.quiz.repositories.UserRepository;
 import com.projeto.quiz.repositories.UserResponsesOrmRepository;
 import com.projeto.quiz.repositories.UserResultOrmRepository;
+import com.projeto.quiz.vo.UserRankingOrmVO;
+import com.projeto.quiz.vo.UserResultOrmGetVO;
 import com.projeto.quiz.vo.UserResultOrmVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserResultOrmService {
     @Autowired
@@ -22,7 +30,7 @@ public class UserResultOrmService {
     UserRepository userRepository;
 
     public UserResultOrmVO saveResultOrm(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Question not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("No records found for this user"));
         List<UserResponsesOrm> userResponses = userResponsesOrmRepository.findByUserId(userId);
 
         int totalCorrect = 0;
@@ -35,7 +43,6 @@ public class UserResultOrmService {
                 totalWrong++;
             }
         }
-
         var newResult = new UserResultOrm();
         newResult.setUserName(user.getUserName());
         newResult.setTotalCorrect(totalCorrect);
@@ -45,17 +52,10 @@ public class UserResultOrmService {
         newResult = userResultOrmRepository.save(newResult);
         return DozerMapper.parseObject(newResult, UserResultOrmVO.class);
     }
+
+    public UserResultOrmGetVO getUserResult(Long userId) {
+        Optional<UserResultOrm> userResult = Optional.ofNullable(userResultOrmRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("No records found for this user")));;
+        return DozerMapper.parseObject(userResult.get(),UserResultOrmGetVO.class);
+    }
 }
 
-/*
-
- UserResultOrmVO resultOrmVO = dozerMapper.parseObject(new UserResultOrmVO(userName, totalCorrect, totalWrong, user), UserResultOrmVO.class);
-
-        // Salvar o objeto mapeado no banco de dados usando o UserResultOrmRepository
-        UserResultOrm resultOrm = dozerMapper.parseObject(resultOrmVO, UserResultOrm.class);
-        userResultOrmRepository.save(resultOrm);
-
-        var email = repository.save(DozerMapper.parseObject(emailVO, Email.class));
-            return DozerMapper.parseObject(email, EmailVO.class);
-
- */

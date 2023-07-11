@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "1a362e94-710b-43e6-8a15-5a0c8eccbbb0",
+		"name": "QUIZ_RANKING",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_ranking_orm",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/quiz/ranking/orm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"quiz",
+						"ranking",
+						"orm"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

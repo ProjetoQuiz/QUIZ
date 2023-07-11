@@ -34,34 +34,40 @@ public class User implements Serializable {
     @Column(name = "sex", nullable = false, length = 9)
     private String sex;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "document_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Document document;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserResponsesOrm> userResponsesOrm = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_result_orm_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserResultOrm userResultOrm;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_address",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "address_id")})
+    private List<Address> addresses = new ArrayList<>();
 
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String userName, String password, String phone, String sex) {
-        this.id = id;
+    public User(String firstName, String lastName, String userName, String password, String phone, String sex, Document document, List<UserResponsesOrm> userResponsesOrm, UserResultOrm userResultOrm, List<Address> addresses) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
         this.phone = phone;
         this.sex = sex;
+        this.document = document;
+        this.userResponsesOrm = userResponsesOrm;
+        this.userResultOrm = userResultOrm;
+        this.addresses = addresses;
     }
 
     public Long getId() {
         return id;
     }
-
 
     public void setId(Long id) {
         this.id = id;
@@ -139,17 +145,25 @@ public class User implements Serializable {
         this.userResultOrm = userResultOrm;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(phone, user.phone) && Objects.equals(sex, user.sex) && Objects.equals(document, user.document);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(phone, user.phone) && Objects.equals(sex, user.sex) && Objects.equals(document, user.document) && Objects.equals(userResponsesOrm, user.userResponsesOrm) && Objects.equals(userResultOrm, user.userResultOrm) && Objects.equals(addresses, user.addresses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, userName, password, phone, sex, document);
+        return Objects.hash(id, firstName, lastName, userName, password, phone, sex, document, userResponsesOrm, userResultOrm, addresses);
     }
 
     @Override
@@ -163,6 +177,9 @@ public class User implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", sex='" + sex + '\'' +
                 ", document=" + document +
+                ", userResponsesOrm=" + userResponsesOrm +
+                ", userResultOrm=" + userResultOrm +
+                ", addresses=" + addresses +
                 '}';
     }
 }

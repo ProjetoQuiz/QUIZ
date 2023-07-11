@@ -1,6 +1,7 @@
 package com.projeto.quiz.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projeto.quiz.models.Address;
 import com.projeto.quiz.models.Document;
 import com.projeto.quiz.models.UserResponsesOrm;
 import com.projeto.quiz.models.UserResultOrm;
@@ -22,12 +23,13 @@ public class UserVO extends RepresentationModel<UserVO> implements Serializable 
     private Document document;
     @JsonIgnore
     private List<UserResponsesOrm> userResponsesOrm = new ArrayList<>();
-
     private UserResultOrm userResultOrm;
+    private List<Address> addresses = new ArrayList<>();
+
     public UserVO() {
     }
 
-    public UserVO(String firstName, String lastName, String userName, String password, String phone, String sex, Document document, List<UserResponsesOrm> userResponsesOrm, UserResultOrm userResultOrm) {
+    public UserVO(String firstName, String lastName, String userName, String password, String phone, String sex, Document document, List<UserResponsesOrm> userResponsesOrm, UserResultOrm userResultOrm, List<Address> addresses) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -37,6 +39,7 @@ public class UserVO extends RepresentationModel<UserVO> implements Serializable 
         this.document = document;
         this.userResponsesOrm = userResponsesOrm;
         this.userResultOrm = userResultOrm;
+        this.addresses = addresses;
     }
 
     public Long getId() {
@@ -119,18 +122,26 @@ public class UserVO extends RepresentationModel<UserVO> implements Serializable 
         this.userResultOrm = userResultOrm;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         UserVO userVO = (UserVO) o;
-        return Objects.equals(id, userVO.id) && Objects.equals(firstName, userVO.firstName) && Objects.equals(lastName, userVO.lastName) && Objects.equals(userName, userVO.userName) && Objects.equals(password, userVO.password) && Objects.equals(phone, userVO.phone) && Objects.equals(sex, userVO.sex) && Objects.equals(document, userVO.document);
+        return Objects.equals(id, userVO.id) && Objects.equals(firstName, userVO.firstName) && Objects.equals(lastName, userVO.lastName) && Objects.equals(userName, userVO.userName) && Objects.equals(password, userVO.password) && Objects.equals(phone, userVO.phone) && Objects.equals(sex, userVO.sex) && Objects.equals(document, userVO.document) && Objects.equals(userResponsesOrm, userVO.userResponsesOrm) && Objects.equals(userResultOrm, userVO.userResultOrm) && Objects.equals(addresses, userVO.addresses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, firstName, lastName, userName, password, phone, sex, document);
+        return Objects.hash(super.hashCode(), id, firstName, lastName, userName, password, phone, sex, document, userResponsesOrm, userResultOrm, addresses);
     }
 
     @Override
@@ -146,6 +157,7 @@ public class UserVO extends RepresentationModel<UserVO> implements Serializable 
                 ", document=" + document +
                 ", userResponsesOrm=" + userResponsesOrm +
                 ", userResultOrm=" + userResultOrm +
+                ", addresses=" + addresses +
                 '}';
     }
 }
